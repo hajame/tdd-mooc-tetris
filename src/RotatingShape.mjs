@@ -21,7 +21,7 @@ export class RotatingShape {
         }
         template = template.concat('\n') 
       }
-      return constructor(template)
+      return new RotatingShape(template.trim())
     }
 
     rotateLeft() {
@@ -30,9 +30,9 @@ export class RotatingShape {
         for (let x=0; x<this.width; x++) {
           template = template.concat(this.shape[x][y]) 
         }
-        template = template.concat('\n') 
+        template = template.concat('\n')
       }
-      return constructor(template)
+      return new RotatingShape(template.trim())
     }
 
     toString() {

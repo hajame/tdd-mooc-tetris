@@ -43,11 +43,12 @@ export class Board {
           this.board[y][x] = shape.blocks[y][x - shapeLeftX];
         }
       }
+      this.fallingShape = { shape: shape, bottomY: shape.height - 1 };
     } else {
       let boardCenterLine = parseInt(this.width / 2);
       this.board[0][boardCenterLine] = shape;
+      this.fallingShape = { shape: shape, bottomY: 0 };
     }
-    this.fallingShape = shape;
     this.isShapeFalling = true;
     this.canMoveBlock = true;
   }

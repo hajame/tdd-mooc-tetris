@@ -36,16 +36,11 @@ export class Board {
       throw "already falling";
     }
 
-    if (shape.constructor.name == "Tetromino") {
+    if (shape instanceof Tetromino) {
       let shapeLeftX = parseInt((this.width - shape.width) / 2);
       for (let y = 0; y < shape.height; y++) {
         for (let x = shapeLeftX; x < shapeLeftX + shape.width; x++) {
-          let char = shape.shape[y][x - shapeLeftX];
-          let fillingObject = new Space();
-          if (char !== ".") {
-            fillingObject = new Block(char);
-          }
-          this.board[y][x] = fillingObject;
+          this.board[y][x] = shape.blocks[y][x - shapeLeftX];
         }
       }
     } else {

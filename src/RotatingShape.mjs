@@ -1,7 +1,11 @@
+import { Block } from "./Block.mjs";
+import { Space } from "./Space.mjs";
+
 export class RotatingShape {
   shape;
   height;
   width;
+  blocks;
 
   constructor(template) {
     const templateRows = template.replace(/ /g, "").split("\n");
@@ -11,6 +15,7 @@ export class RotatingShape {
     for (let i = 0; i < this.height; i++) {
       this.shape[i] = templateRows[i].split("");
     }
+    this.blocks = this.toBlocks();
   }
 
   rotateRight() {
@@ -33,6 +38,21 @@ export class RotatingShape {
       template = template.concat("\n");
     }
     return new RotatingShape(template.trim());
+  }
+
+  toBlocks() {
+    let blocks = Array.from(Array(this.height), () => new Array(this.width));
+    for (let y = 0; y < this.height; y++) {
+      for (let x = 0; x < this.width; x++) {
+        let char = this.shape[y][x];
+        let fillingObject = new Space();
+        if (char !== ".") {
+          fillingObject = new Block(char);
+        }
+        blocks[y][x] = fillingObject;
+      }
+    }
+    return blocks;
   }
 
   toString() {

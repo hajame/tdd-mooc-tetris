@@ -1,4 +1,3 @@
-
 import { expect } from "chai";
 import { Board } from "../src/Board.mjs";
 import { Tetromino } from "../src/Tetromino.mjs";
@@ -15,7 +14,7 @@ describe("Falling tetrominoes", () => {
     board = new Board(10, 6);
   });
 
-  xit("start from the top middle", () => {
+  it("start from the top middle", () => {
     board.drop(Tetromino.T_SHAPE);
 
     expect(board.toString()).to.equalShape(
@@ -58,4 +57,3 @@ describe("Falling tetrominoes", () => {
     );
   });
 });
-

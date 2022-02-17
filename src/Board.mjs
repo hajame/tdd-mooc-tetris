@@ -1,17 +1,20 @@
 import { Space } from "../src/Space.mjs";
 import { Block } from "../src/Block.mjs";
+import { Tetromino } from "./Tetromino.mjs";
 
 export class Board {
   width;
   height;
   board;
-  isBlockFalling;
+  isShapeFalling;
+  fallingShape;
 
   constructor(width, height) {
     this.width = width;
     this.height = height;
     this.board = [];
-    this.isBlockFalling = false;
+    this.fallingShape = undefined;
+    this.isShapeFalling = false;
     this._initializeBoard();
   }
 
@@ -25,21 +28,37 @@ export class Board {
   }
 
   hasFalling() {
-    return this.isBlockFalling;
+    return this.isShapeFalling;
   }
 
-  drop(block) {
-    if (this.isBlockFalling) {
+  drop(shape) {
+    if (this.isShapeFalling) {
       throw "already falling";
     }
-    let boardCenterLine = parseInt(this.width / 2);
-    this.board[0][boardCenterLine] = block;
-    this.isBlockFalling = true;
+
+    if (shape.constructor.name == "Tetromino") {
+      let shapeLeftX = parseInt((this.width - shape.width) / 2);
+      for (let y = 0; y < shape.height; y++) {
+        for (let x = shapeLeftX; x < shapeLeftX + shape.width; x++) {
+          let char = shape.shape[y][x - shapeLeftX];
+          let fillingObject = new Space();
+          if (char !== ".") {
+            fillingObject = new Block(char);
+          }
+          this.board[y][x] = fillingObject;
+        }
+      }
+    } else {
+      let boardCenterLine = parseInt(this.width / 2);
+      this.board[0][boardCenterLine] = shape;
+    }
+    this.fallingShape = shape;
+    this.isShapeFalling = true;
     this.canMoveBlock = true;
   }
 
   tick() {
-    if (!this.isBlockFalling) {
+    if (!this.isShapeFalling) {
       return;
     }
     for (var h = 0; h < this.height; h++) {
@@ -48,8 +67,8 @@ export class Board {
         if (!(block instanceof Block)) {
           continue;
         }
-        this.isBlockFalling = this._canMoveDown(block, h, w);
-        if (this.isBlockFalling) {
+        this.isShapeFalling = this._canMoveDown(block, h, w);
+        if (this.isShapeFalling) {
           this._moveBlockDown(block, h, w);
           return;
         }

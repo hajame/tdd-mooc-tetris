@@ -6,6 +6,6 @@ export class Block {
   }
 
   toString() {
-    return this.color
+    return this.color;
   }
 }

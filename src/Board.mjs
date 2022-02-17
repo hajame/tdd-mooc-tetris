@@ -10,9 +10,9 @@ export class Board {
   constructor(width, height) {
     this.width = width;
     this.height = height;
-    this.board = []
-    this.isBlockFalling = false
-    this._initializeBoard(); 
+    this.board = [];
+    this.isBlockFalling = false;
+    this._initializeBoard();
   }
 
   _initializeBoard() {
@@ -25,16 +25,17 @@ export class Board {
   }
 
   hasFalling() {
-    return this.isBlockFalling
+    return this.isBlockFalling;
   }
 
   drop(block) {
     if (this.isBlockFalling) {
-      throw('already falling')
+      throw "already falling";
     }
-    this.board[0][parseInt(this.width / 2)] = block
-    this.isBlockFalling = true
-    this.canMoveBlock = true
+    let boardCenterLine = parseInt(this.width / 2);
+    this.board[0][boardCenterLine] = block;
+    this.isBlockFalling = true;
+    this.canMoveBlock = true;
   }
 
   tick() {
@@ -43,39 +44,39 @@ export class Board {
     }
     for (var h = 0; h < this.height; h++) {
       for (var w = 0; w < this.width; w++) {
-        let block = this.board[h][w]
+        let block = this.board[h][w];
         if (!(block instanceof Block)) {
-          continue
+          continue;
         }
-        this.isBlockFalling = this._canMoveDown(block, h, w)
+        this.isBlockFalling = this._canMoveDown(block, h, w);
         if (this.isBlockFalling) {
-            this._moveBlockDown(block, h, w)
-            return
+          this._moveBlockDown(block, h, w);
+          return;
         }
       }
     }
   }
 
   _canMoveDown(block, h, w) {
-    return h < this.height-1 && this.board[h+1][w] instanceof Space;
+    return h < this.height - 1 && this.board[h + 1][w] instanceof Space;
   }
 
   _moveBlockDown(block, h, w) {
     if (h == this.height - 1) {
-      this.blockFalling = false
+      this.blockFalling = false;
       return;
     }
-    this.board[h][w] = new Space()
-    this.board[h+1][w] = block
+    this.board[h][w] = new Space();
+    this.board[h + 1][w] = block;
   }
 
   toString() {
-    let print = '';
+    let print = "";
     for (var h = 0; h < this.height; h++) {
       for (var w = 0; w < this.width; w++) {
         print = print.concat(this.board[h][w].toString());
       }
-      print = print.concat('\n');
+      print = print.concat("\n");
     }
     return print;
   }

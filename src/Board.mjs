@@ -1,6 +1,7 @@
 import { Space } from "../src/Space.mjs";
 import { Block } from "../src/Block.mjs";
 import { Tetromino } from "./Tetromino.mjs";
+import { RotatingShape } from "./RotatingShape.mjs";
 
 export class Board {
   width;
@@ -43,11 +44,17 @@ export class Board {
           this.board[y][x] = shape.blocks[y][x - shapeLeftX];
         }
       }
-      this.fallingShape = { shape: shape, bottomY: shape.height - 1 };
+      this.fallingShape = {
+        shape: shape,
+        bottomLeft: { y: shape.height - 1, x: shapeLeftX },
+      };
     } else {
       let boardCenterLine = parseInt(this.width / 2);
       this.board[0][boardCenterLine] = shape;
-      this.fallingShape = { shape: shape, bottomY: 0 };
+      this.fallingShape = {
+        shape: new RotatingShape(shape.toString()),
+        bottomLeft: { y: 0, x: boardCenterLine },
+      };
     }
     this.isShapeFalling = true;
     this.canMoveBlock = true;
@@ -57,23 +64,52 @@ export class Board {
     if (!this.isShapeFalling) {
       return;
     }
-    for (var h = 0; h < this.height; h++) {
-      for (var w = 0; w < this.width; w++) {
+    let shape = this.fallingShape.shape;
+    this.isShapeFalling = this._canMoveDown();
+
+    if (!this.isShapeFalling) {
+      return;
+    }
+
+    const bottomLeft = this.fallingShape.bottomLeft;
+    const bottomY = bottomLeft.y;
+    const bottomX = bottomLeft.x;
+
+    console.log(bottomLeft, "AAAA", shape.height, shape.width);
+
+    for (var h = bottomY; h > bottomY - shape.height; h--) {
+      for (var w = bottomX; w < bottomX + shape.width; w++) {
         let block = this.board[h][w];
-        if (!(block instanceof Block)) {
-          continue;
-        }
-        this.isShapeFalling = this._canMoveDown(block, h, w);
-        if (this.isShapeFalling) {
+        if (block instanceof Block) {
+          console.log(block, "BBBB");
           this._moveBlockDown(block, h, w);
-          return;
+          continue;
         }
       }
     }
+    this.fallingShape.bottomLeft = {
+      y: bottomLeft.y + 1,
+      x: bottomLeft.x,
+    };
+    console.log(this.fallingShape.bottomLeft, "AAAA");
   }
 
-  _canMoveDown(block, h, w) {
-    return h < this.height - 1 && this.board[h + 1][w] instanceof Space;
+  _canMoveDown() {
+    let shape = this.fallingShape.shape;
+    const bottomLeft = this.fallingShape.bottomLeft;
+    const bottomY = bottomLeft.y;
+    const bottomX = bottomLeft.x;
+
+    if (bottomY >= this.height - 1) {
+      return false;
+    }
+    for (var w = bottomX; w < bottomX + shape.width; w++) {
+      console.log(this.board[bottomY + 1][w], "CCCCCC");
+      if (!(this.board[bottomY + 1][w] instanceof Space)) {
+        return false;
+      }
+    }
+    return true;
   }
 
   _moveBlockDown(block, h, w) {

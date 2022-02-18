@@ -66,50 +66,69 @@ export class Board {
     }
     let shape = this.fallingShape.shape;
     this.isShapeFalling = this._canMoveDown();
-
     if (!this.isShapeFalling) {
       return;
     }
 
-    const bottomLeft = this.fallingShape.bottomLeft;
-    const bottomY = bottomLeft.y;
-    const bottomX = bottomLeft.x;
-
-    console.log(bottomLeft, "AAAA", shape.height, shape.width);
-
-    for (var h = bottomY; h > bottomY - shape.height; h--) {
+    const solidDimensions = this.getSolidDimensions();
+    const bottomY = solidDimensions.bottomLeft.y;
+    const bottomX = solidDimensions.bottomLeft.x;
+    const solidHeight = solidDimensions.height;
+    for (var h = bottomY; h > bottomY - solidHeight; h--) {
       for (var w = bottomX; w < bottomX + shape.width; w++) {
         let block = this.board[h][w];
         if (block instanceof Block) {
-          console.log(block, "BBBB");
           this._moveBlockDown(block, h, w);
           continue;
         }
       }
     }
     this.fallingShape.bottomLeft = {
-      y: bottomLeft.y + 1,
-      x: bottomLeft.x,
+      y: this.fallingShape.bottomLeft.y + 1,
+      x: this.fallingShape.bottomLeft.x,
     };
-    console.log(this.fallingShape.bottomLeft, "AAAA");
   }
 
   _canMoveDown() {
-    let shape = this.fallingShape.shape;
-    const bottomLeft = this.fallingShape.bottomLeft;
-    const bottomY = bottomLeft.y;
-    const bottomX = bottomLeft.x;
+    const shape = this.fallingShape.shape;
+    let dimensions = this.getSolidDimensions();
+    const bottomY = dimensions.bottomLeft.y;
+    const bottomX = dimensions.bottomLeft.x;
 
     if (bottomY >= this.height - 1) {
       return false;
     }
     for (var w = bottomX; w < bottomX + shape.width; w++) {
-      console.log(this.board[bottomY + 1][w], "CCCCCC");
       if (!(this.board[bottomY + 1][w] instanceof Space)) {
         return false;
       }
     }
     return true;
+  }
+
+  getSolidDimensions() {
+    const shape = this.fallingShape.shape;
+    let dimensions = {
+      bottomLeft: {
+        y: this.fallingShape.bottomLeft.y,
+        x: this.fallingShape.bottomLeft.x,
+      },
+      height: shape.height,
+    };
+    const originalY = dimensions.bottomLeft.y;
+    const originalX = dimensions.bottomLeft.x;
+    for (var h = originalY; h > originalY - shape.height; h--) {
+      for (var w = originalX; w < originalX + shape.width; w++) {
+        let block = this.board[h][w];
+        if (block instanceof Block) {
+          console.log(originalY, shape.height, "AAA", dimensions);
+          return dimensions;
+        }
+      }
+      dimensions.bottomLeft.y = dimensions.bottomLeft.y - 1;
+      dimensions.height = dimensions.height - 1;
+    }
+    return dimensions;
   }
 
   _moveBlockDown(block, h, w) {

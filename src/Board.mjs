@@ -115,13 +115,14 @@ export class Board {
       },
       height: shape.height,
     };
-    const originalY = dimensions.bottomLeft.y;
+    let originalY = dimensions.bottomLeft.y;
     const originalX = dimensions.bottomLeft.x;
+
+    originalY = originalY < this.height ? originalY : this.height - 1;
     for (var h = originalY; h > originalY - shape.height; h--) {
       for (var w = originalX; w < originalX + shape.width; w++) {
         let block = this.board[h][w];
         if (block instanceof Block) {
-          console.log(originalY, shape.height, "AAA", dimensions);
           return dimensions;
         }
       }

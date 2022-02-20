@@ -36,28 +36,34 @@ export class Board {
     if (this.isShapeFalling) {
       throw "already falling";
     }
-
     if (shape instanceof Tetromino) {
-      let shapeLeftX = parseInt((this.width - shape.width) / 2);
-      for (let y = 0; y < shape.height; y++) {
-        for (let x = shapeLeftX; x < shapeLeftX + shape.width; x++) {
-          this.board[y][x] = shape.blocks[y][x - shapeLeftX];
-        }
-      }
-      this.fallingShape = {
-        shape: shape,
-        bottomLeft: { y: shape.height - 1, x: shapeLeftX },
-      };
+      this._dropTetromino(shape);
     } else {
-      let boardCenterLine = parseInt(this.width / 2);
-      this.board[0][boardCenterLine] = shape;
-      this.fallingShape = {
-        shape: new RotatingShape(shape.toString()),
-        bottomLeft: { y: 0, x: boardCenterLine },
-      };
+      this._dropSingleBlockShape(shape);
     }
     this.isShapeFalling = true;
-    this.canMoveBlock = true;
+  }
+
+  _dropTetromino(shape) {
+    let shapeLeftX = parseInt((this.width - shape.width) / 2);
+    for (let y = 0; y < shape.height; y++) {
+      for (let x = shapeLeftX; x < shapeLeftX + shape.width; x++) {
+        this.board[y][x] = shape.blocks[y][x - shapeLeftX];
+      }
+    }
+    this.fallingShape = {
+      shape: shape,
+      bottomLeft: { y: shape.height - 1, x: shapeLeftX },
+    };
+  }
+
+  _dropSingleBlockShape(shape) {
+    let boardCenterLine = parseInt(this.width / 2);
+    this.board[0][boardCenterLine] = shape;
+    this.fallingShape = {
+      shape: new RotatingShape(shape.toString()),
+      bottomLeft: { y: 0, x: boardCenterLine },
+    };
   }
 
   tick() {
@@ -65,33 +71,19 @@ export class Board {
       return;
     }
     let shape = this.fallingShape.shape;
-    this.isShapeFalling = this._canMoveDown();
+    this.isShapeFalling = this._canMoveDown(shape);
     if (!this.isShapeFalling) {
       return;
     }
-
-    const solidDimensions = this.getSolidDimensions();
-    const bottomY = solidDimensions.bottomLeft.y;
-    const bottomX = solidDimensions.bottomLeft.x;
-    const solidHeight = solidDimensions.height;
-    for (var h = bottomY; h > bottomY - solidHeight; h--) {
-      for (var w = bottomX; w < bottomX + shape.width; w++) {
-        let block = this.board[h][w];
-        if (block instanceof Block) {
-          this._moveBlockDown(block, h, w);
-          continue;
-        }
-      }
-    }
+    this._moveShapeDown(shape);
     this.fallingShape.bottomLeft = {
       y: this.fallingShape.bottomLeft.y + 1,
       x: this.fallingShape.bottomLeft.x,
     };
   }
 
-  _canMoveDown() {
-    const shape = this.fallingShape.shape;
-    let dimensions = this.getSolidDimensions();
+  _canMoveDown(shape) {
+    let dimensions = this._getSolidDimensions(shape);
     const bottomY = dimensions.bottomLeft.y;
     const bottomX = dimensions.bottomLeft.x;
 
@@ -106,8 +98,20 @@ export class Board {
     return true;
   }
 
-  getSolidDimensions() {
-    const shape = this.fallingShape.shape;
+  _moveShapeDown(shape) {
+    const SD = this._getSolidDimensions(shape);
+    for (var h = SD.bottomLeft.y; h > SD.bottomLeft.y - SD.height; h--) {
+      for (var w = SD.bottomLeft.x; w < SD.bottomLeft.x + shape.width; w++) {
+        let block = this.board[h][w];
+        if (block instanceof Block) {
+          this._moveBlockDown(block, h, w);
+          continue;
+        }
+      }
+    }
+  }
+
+  _getSolidDimensions(shape) {
     let dimensions = {
       bottomLeft: {
         y: this.fallingShape.bottomLeft.y,
@@ -115,14 +119,13 @@ export class Board {
       },
       height: shape.height,
     };
-    let originalY = dimensions.bottomLeft.y;
-    const originalX = dimensions.bottomLeft.x;
-
+    let originalY = this.fallingShape.bottomLeft.y;
     originalY = originalY < this.height ? originalY : this.height - 1;
+    const originalX = this.fallingShape.bottomLeft.x;
+
     for (var h = originalY; h > originalY - shape.height; h--) {
       for (var w = originalX; w < originalX + shape.width; w++) {
-        let block = this.board[h][w];
-        if (block instanceof Block) {
+        if (this.board[h][w] instanceof Block) {
           return dimensions;
         }
       }

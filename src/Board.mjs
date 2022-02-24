@@ -111,6 +111,32 @@ export class Board {
     }
   }
 
+  moveLeft() {
+    this._moveShape(this.fallingShape.shape, 0, -1);
+  }
+
+  _moveShape(shape, yDiff, xDiff) {
+    const SD = this._getSolidDimensions(shape);
+    for (var y = SD.bottomLeft.y; y > SD.bottomLeft.y - SD.height; y--) {
+      for (var x = SD.bottomLeft.x; x < SD.bottomLeft.x + shape.width; x++) {
+        let block = this.board[y][x];
+        if (block instanceof Block) {
+          this._moveBlock(block, y, x, yDiff, xDiff);
+          continue;
+        }
+      }
+    }
+  }
+
+  _moveBlock(block, y, x, yDiff, xDiff) {
+    if (y == this.height - 1) {
+      this.blockFalling = false;
+      return;
+    }
+    this.board[y][x] = new Space();
+    this.board[y + yDiff][x + xDiff] = block;
+  }
+
   _getSolidDimensions(shape) {
     let dimensions = {
       bottomLeft: {

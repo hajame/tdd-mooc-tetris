@@ -70,6 +70,10 @@ export class Board {
     this._moveShape(this.fallingShape.shape, 0, -1);
   }
 
+  moveDown() {
+    this._moveShape(this.fallingShape.shape, +1, 0);
+  }
+
   tick() {
     if (!this.isShapeFalling) {
       return;

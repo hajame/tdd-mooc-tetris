@@ -66,6 +66,10 @@ export class Board {
     };
   }
 
+  moveLeft() {
+    this._moveShape(this.fallingShape.shape, 0, -1);
+  }
+
   tick() {
     if (!this.isShapeFalling) {
       return;
@@ -75,7 +79,7 @@ export class Board {
     if (!this.isShapeFalling) {
       return;
     }
-    this._moveShapeDown(shape);
+    this._moveShape(shape, +1, 0);
     this.fallingShape.bottomLeft = {
       y: this.fallingShape.bottomLeft.y + 1,
       x: this.fallingShape.bottomLeft.x,
@@ -98,23 +102,6 @@ export class Board {
     return true;
   }
 
-  _moveShapeDown(shape) {
-    const SD = this._getSolidDimensions(shape);
-    for (var h = SD.bottomLeft.y; h > SD.bottomLeft.y - SD.height; h--) {
-      for (var w = SD.bottomLeft.x; w < SD.bottomLeft.x + shape.width; w++) {
-        let block = this.board[h][w];
-        if (block instanceof Block) {
-          this._moveBlockDown(block, h, w);
-          continue;
-        }
-      }
-    }
-  }
-
-  moveLeft() {
-    this._moveShape(this.fallingShape.shape, 0, -1);
-  }
-
   _moveShape(shape, yDiff, xDiff) {
     const SD = this._getSolidDimensions(shape);
     for (var y = SD.bottomLeft.y; y > SD.bottomLeft.y - SD.height; y--) {
@@ -129,10 +116,6 @@ export class Board {
   }
 
   _moveBlock(block, y, x, yDiff, xDiff) {
-    if (y == this.height - 1) {
-      this.blockFalling = false;
-      return;
-    }
     this.board[y][x] = new Space();
     this.board[y + yDiff][x + xDiff] = block;
   }
@@ -159,15 +142,6 @@ export class Board {
       dimensions.height = dimensions.height - 1;
     }
     return dimensions;
-  }
-
-  _moveBlockDown(block, h, w) {
-    if (h == this.height - 1) {
-      this.blockFalling = false;
-      return;
-    }
-    this.board[h][w] = new Space();
-    this.board[h + 1][w] = block;
   }
 
   toString() {

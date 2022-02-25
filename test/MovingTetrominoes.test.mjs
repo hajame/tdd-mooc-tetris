@@ -60,6 +60,7 @@ describe("Moving tetrominoes", () => {
     });
     it("it can move right twice", () => {
       board.moveRight();
+      board.moveRight();
       expect(board.toString()).to.equalShape(
         `......T...
          .....TTT..

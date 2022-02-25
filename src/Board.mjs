@@ -114,6 +114,10 @@ export class Board {
         }
       }
     }
+    this._updateFallingShapePosition(yDiff, xDiff);
+  }
+
+  _updateFallingShapePosition(yDiff, xDiff) {
     this.fallingShape.bottomLeft = {
       y: this.fallingShape.bottomLeft.y + yDiff,
       x: this.fallingShape.bottomLeft.x + xDiff,
@@ -130,6 +134,7 @@ export class Board {
         }
       }
     }
+    this._updateFallingShapePosition(yDiff, xDiff);
   }
 
   _moveBlock(block, y, x, yDiff, xDiff) {

@@ -102,5 +102,18 @@ describe("Moving tetrominoes", () => {
          ...TTT....`
       );
     });
+    it("it cannot move right beyond the board", () => {
+      for (let i = 0; i < 5; i++) {
+        board.moveRight();
+      }
+      expect(board.toString()).to.equalShape(
+        `........T.
+         .......TTT
+         ..........
+         ..........
+         ..........
+         ..........`
+      );
+    });
   });
 });

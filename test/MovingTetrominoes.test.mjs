@@ -2,6 +2,12 @@ import { expect } from "chai";
 import { Board } from "../src/Board.mjs";
 import { Tetromino } from "../src/Tetromino.mjs";
 
+function fallToBottom(board) {
+  for (let i = 0; i < 10; i++) {
+    board.tick();
+  }
+}
+
 describe("Moving tetrominoes", () => {
   let board;
   beforeEach(() => {
@@ -113,6 +119,27 @@ describe("Moving tetrominoes", () => {
          ..........
          ..........
          ..........`
+      );
+    });
+  });
+
+  describe("When there is another Tetromino", () => {
+    beforeEach(() => {
+      board.drop(Tetromino.T_SHAPE);
+      fallToBottom(board);
+    });
+    it("cannot move down through another block", () => {
+      board.drop(Tetromino.T_SHAPE);
+      for (let i = 0; i < 6; i++) {
+        board.moveDown();
+      }
+      expect(board.toString()).to.equalShape(
+        `..........
+         ..........
+         ....T.....
+         ...TTT....
+         ....T.....
+         ...TTT....`
       );
     });
   });

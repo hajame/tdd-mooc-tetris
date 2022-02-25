@@ -55,6 +55,7 @@ export class Board {
       shape: shape,
       bottomLeft: { y: shape.height - 1, x: shapeLeftX },
     };
+    this.fallingShape.trimmedShape = this._trimShape();
   }
 
   _dropSingleBlockShape(shape) {
@@ -63,35 +64,36 @@ export class Board {
       shape: new RotatingShape(shape.toString()),
       bottomLeft: { y: 0, x: parseInt(this.width / 2) },
     };
+    this.fallingShape.trimmedShape = this._trimShape();
   }
 
   moveLeft() {
-    if (!this._canMoveLeft(this._getShapeDimensions())) {
+    if (!this._canMoveLeft(this.fallingShape.trimmedShape)) {
       return;
     }
-    this._moveShape(this._getShapeDimensions(), 0, -1);
+    this._moveShape(this.fallingShape.trimmedShape, 0, -1);
   }
 
   moveDown() {
-    if (!this._canMoveDown(this._getShapeDimensions())) {
+    if (!this._canMoveDown(this._trimShape())) {
       return;
     }
-    this._moveShape(this._getShapeDimensions(), +1, 0);
+    this._moveShape(this._trimShape(), +1, 0);
   }
 
   moveRight() {
-    const shape = this._getShapeDimensions();
+    const shape = this._trimShape();
     if (shape.bottomLeft.x + shape.width - 1 >= this.width - 1) {
       return;
     }
-    this._moveShapeRight(this._getShapeDimensions(), 0, +1);
+    this._moveShapeRight(this._trimShape(), 0, +1);
   }
 
   tick() {
     if (!this.isShapeFalling) {
       return;
     }
-    this.isShapeFalling = this._canMoveDown(this._getShapeDimensions());
+    this.isShapeFalling = this._canMoveDown(this._trimShape());
     if (!this.isShapeFalling) {
       return;
     }
@@ -141,6 +143,10 @@ export class Board {
       y: this.fallingShape.bottomLeft.y + yDiff,
       x: this.fallingShape.bottomLeft.x + xDiff,
     };
+    this.fallingShape.trimmedShape.bottomLeft = {
+      y: this.fallingShape.trimmedShape.bottomLeft.y + yDiff,
+      x: this.fallingShape.trimmedShape.bottomLeft.x + xDiff,
+    };
   }
 
   _moveShapeRight(shape, yDiff, xDiff) {
@@ -161,9 +167,9 @@ export class Board {
     this.board[y + yDiff][x + xDiff] = block;
   }
 
-  _getShapeDimensions() {
+  _trimShape() {
     let shape = this.fallingShape.shape;
-    let dimensions = {
+    let result = {
       bottomLeft: {
         y: this.fallingShape.bottomLeft.y,
         x: this.fallingShape.bottomLeft.x,
@@ -178,13 +184,13 @@ export class Board {
     for (var h = originalY; h > originalY - shape.height; h--) {
       for (var w = originalX; w < originalX + shape.width; w++) {
         if (this.board[h][w] instanceof Block) {
-          return dimensions;
+          return result;
         }
       }
-      dimensions.bottomLeft.y = dimensions.bottomLeft.y - 1;
-      dimensions.height = dimensions.height - 1;
+      result.bottomLeft.y = result.bottomLeft.y - 1;
+      result.height = result.height - 1;
     }
-    return dimensions;
+    return result;
   }
 
   toString() {

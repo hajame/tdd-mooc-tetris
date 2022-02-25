@@ -75,25 +75,25 @@ export class Board {
   }
 
   moveDown() {
-    if (!this._canMoveDown(this._trimShape())) {
+    if (!this._canMoveDown(this.fallingShape.trimmedShape)) {
       return;
     }
-    this._moveShape(this._trimShape(), +1, 0);
+    this._moveShape(this.fallingShape.trimmedShape, +1, 0);
   }
 
   moveRight() {
-    const shape = this._trimShape();
+    const shape = this.fallingShape.trimmedShape;
     if (shape.bottomLeft.x + shape.width - 1 >= this.width - 1) {
       return;
     }
-    this._moveShapeRight(this._trimShape(), 0, +1);
+    this._moveShapeRight(this.fallingShape.trimmedShape, 0, +1);
   }
 
   tick() {
     if (!this.isShapeFalling) {
       return;
     }
-    this.isShapeFalling = this._canMoveDown(this._trimShape());
+    this.isShapeFalling = this._canMoveDown(this.fallingShape.trimmedShape);
     if (!this.isShapeFalling) {
       return;
     }

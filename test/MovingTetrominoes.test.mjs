@@ -159,5 +159,25 @@ describe("Moving tetrominoes", () => {
          .TTT......`
       );
     });
+    it("can move left on top of another block", () => {
+      board.drop(Tetromino.T_SHAPE);
+      board.moveRight();
+      board.moveRight();
+      fallToBottom(board);
+      board.drop(Tetromino.T_SHAPE);
+      fallToBottom(board);
+      for (let i = 0; i < 3; i++) {
+        board.tick();
+      }
+      board.moveLeft();
+      expect(board.toString()).to.equalShape(
+        `..........
+         ..........
+         ..........
+         ...T......
+         ..TTT.T...
+         .....TTT..`
+      );
+    });
   });
 });

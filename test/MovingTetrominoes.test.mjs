@@ -124,11 +124,9 @@ describe("Moving tetrominoes", () => {
   });
 
   describe("When there is another Tetromino", () => {
-    beforeEach(() => {
+    it("cannot move down through another block", () => {
       board.drop(Tetromino.T_SHAPE);
       fallToBottom(board);
-    });
-    it("cannot move down through another block", () => {
       board.drop(Tetromino.T_SHAPE);
       for (let i = 0; i < 6; i++) {
         board.moveDown();
@@ -140,6 +138,25 @@ describe("Moving tetrominoes", () => {
          ...TTT....
          ....T.....
          ...TTT....`
+      );
+    });
+    it("cannot move LEFT through another block", () => {
+      board.drop(Tetromino.T_SHAPE);
+      board.moveLeft();
+      board.moveLeft();
+      fallToBottom(board);
+      board.drop(Tetromino.T_SHAPE);
+      for (let i = 0; i < 3; i++) {
+        board.tick();
+      }
+      board.moveLeft();
+      expect(board.toString()).to.equalShape(
+        `..........
+         ..........
+         ..........
+         ....T.....
+         ..TTTT....
+         .TTT......`
       );
     });
   });

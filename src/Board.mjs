@@ -80,6 +80,10 @@ export class Board {
   }
 
   moveRight() {
+    const shape = this._getShapeDimensions();
+    if (shape.bottomLeft.x + shape.width - 1 >= this.width - 1) {
+      return;
+    }
     this._moveShapeRight(this._getShapeDimensions(), 0, +1);
   }
 

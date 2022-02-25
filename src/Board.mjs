@@ -73,6 +73,9 @@ export class Board {
   }
 
   moveDown() {
+    if (!this._canMoveDown(this._getShapeDimensions())) {
+      return;
+    }
     this._moveShape(this._getShapeDimensions(), +1, 0);
   }
 

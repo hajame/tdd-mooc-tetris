@@ -66,6 +66,9 @@ export class Board {
   }
 
   moveLeft() {
+    if (this._getShapeDimensions().bottomLeft.x <= 0) {
+      return;
+    }
     this._moveShape(this._getShapeDimensions(), 0, -1);
   }
 
@@ -81,12 +84,11 @@ export class Board {
     if (!this.isShapeFalling) {
       return;
     }
-    let shape = this._getShapeDimensions();
-    this.isShapeFalling = this._canMoveDown(shape);
+    this.isShapeFalling = this._canMoveDown(this._getShapeDimensions());
     if (!this.isShapeFalling) {
       return;
     }
-    this._moveShape(shape, +1, 0);
+    this.moveDown();
   }
 
   _canMoveDown(shape) {

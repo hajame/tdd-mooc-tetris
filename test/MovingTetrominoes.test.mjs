@@ -71,13 +71,13 @@ describe("Moving tetrominoes", () => {
       );
     });
   });
-  xdescribe("When a Tetromino hits a wall", () => {
+  describe("When a Tetromino hits a wall", () => {
     beforeEach(() => {
       board.drop(Tetromino.T_SHAPE);
     });
 
     it("it cannot move left beyond the board", () => {
-      for (let i = 0; i < 3; i++) {
+      for (let i = 0; i < 5; i++) {
         board.moveLeft();
       }
       expect(board.toString()).to.equalShape(
@@ -87,6 +87,19 @@ describe("Moving tetrominoes", () => {
          ..........
          ..........
          ..........`
+      );
+    });
+    it("it cannot move down beyond the board", () => {
+      for (let i = 0; i < 6; i++) {
+        board.moveDown();
+      }
+      expect(board.toString()).to.equalShape(
+        `..........
+         ..........
+         ..........
+         ..........
+         ....T.....
+         ...TTT....`
       );
     });
   });

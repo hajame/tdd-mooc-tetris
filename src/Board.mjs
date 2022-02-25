@@ -66,7 +66,7 @@ export class Board {
   }
 
   moveLeft() {
-    if (this._getShapeDimensions().bottomLeft.x <= 0) {
+    if (!this._canMoveLeft(this._getShapeDimensions())) {
       return;
     }
     this._moveShape(this._getShapeDimensions(), 0, -1);
@@ -96,6 +96,16 @@ export class Board {
       return;
     }
     this.moveDown();
+  }
+
+  _canMoveLeft(shape) {
+    if (shape.bottomLeft.x <= 0) {
+      return false;
+    }
+    if (!(this.board[shape.bottomLeft.y][shape.bottomLeft.x - 1] instanceof Space)) {
+      return false;
+    }
+    return true;
   }
 
   _canMoveDown(shape) {

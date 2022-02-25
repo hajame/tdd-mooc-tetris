@@ -74,6 +74,10 @@ export class Board {
     this._moveShape(this.fallingShape.shape, +1, 0);
   }
 
+  moveRight() {
+    this._moveShapeRight(this.fallingShape.shape, 0, +1);
+  }
+
   tick() {
     if (!this.isShapeFalling) {
       return;
@@ -110,6 +114,23 @@ export class Board {
     const SD = this._getSolidDimensions(shape);
     for (var y = SD.bottomLeft.y; y > SD.bottomLeft.y - SD.height; y--) {
       for (var x = SD.bottomLeft.x; x < SD.bottomLeft.x + shape.width; x++) {
+        let block = this.board[y][x];
+        if (block instanceof Block) {
+          this._moveBlock(block, y, x, yDiff, xDiff);
+          continue;
+        }
+      }
+    }
+  }
+
+  _moveShapeRight(shape, yDiff, xDiff) {
+    const SD = this._getSolidDimensions(shape);
+    for (var y = SD.bottomLeft.y; y > SD.bottomLeft.y - SD.height; y--) {
+      for (
+        var x = SD.bottomLeft.x + shape.width;
+        x > SD.bottomLeft.x - 1;
+        x--
+      ) {
         let block = this.board[y][x];
         if (block instanceof Block) {
           this._moveBlock(block, y, x, yDiff, xDiff);

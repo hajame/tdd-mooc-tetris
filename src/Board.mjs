@@ -87,10 +87,6 @@ export class Board {
       return;
     }
     this._moveShape(shape, +1, 0);
-    this.fallingShape.bottomLeft = {
-      y: this.fallingShape.bottomLeft.y + 1,
-      x: this.fallingShape.bottomLeft.x,
-    };
   }
 
   _canMoveDown(shape) {
@@ -118,6 +114,10 @@ export class Board {
         }
       }
     }
+    this.fallingShape.bottomLeft = {
+      y: this.fallingShape.bottomLeft.y + yDiff,
+      x: this.fallingShape.bottomLeft.x + xDiff,
+    };
   }
 
   _moveShapeRight(shape, yDiff, xDiff) {

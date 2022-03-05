@@ -179,5 +179,44 @@ describe("Moving tetrominoes", () => {
          .....TTT..`
       );
     });
+    it("cannot move RIGHT through another block", () => {
+      board.drop(Tetromino.T_SHAPE);
+      board.moveRight();
+      board.moveRight();
+      fallToBottom(board);
+      board.drop(Tetromino.T_SHAPE);
+      for (let i = 0; i < 3; i++) {
+        board.tick();
+      }
+      board.moveRight();
+      expect(board.toString()).to.equalShape(
+        `..........
+         ..........
+         ..........
+         ....T.....
+         ...TTTT...
+         .....TTT..`
+      );
+    });
+    xit("can move left on top of another block", () => {
+      board.drop(Tetromino.T_SHAPE);
+      board.moveRight();
+      board.moveRight();
+      fallToBottom(board);
+      board.drop(Tetromino.T_SHAPE);
+      fallToBottom(board);
+      for (let i = 0; i < 3; i++) {
+        board.tick();
+      }
+      board.moveLeft();
+      expect(board.toString()).to.equalShape(
+        `..........
+         ..........
+         ..........
+         ...T......
+         ..TTT.T...
+         .....TTT..`
+      );
+    });
   });
 });

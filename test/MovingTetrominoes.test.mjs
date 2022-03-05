@@ -198,24 +198,24 @@ describe("Moving tetrominoes", () => {
          .....TTT..`
       );
     });
-    xit("can move left on top of another block", () => {
+    it("can move right on top of another block", () => {
       board.drop(Tetromino.T_SHAPE);
-      board.moveRight();
-      board.moveRight();
+      board.moveLeft();
+      board.moveLeft();
       fallToBottom(board);
       board.drop(Tetromino.T_SHAPE);
       fallToBottom(board);
       for (let i = 0; i < 3; i++) {
         board.tick();
       }
-      board.moveLeft();
+      board.moveRight();
       expect(board.toString()).to.equalShape(
         `..........
          ..........
          ..........
-         ...T......
-         ..TTT.T...
-         .....TTT..`
+         .....T....
+         ..T.TTT...
+         .TTT......`
       );
     });
   });

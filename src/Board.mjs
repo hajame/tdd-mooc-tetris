@@ -70,9 +70,19 @@ export class Board {
     this._rotateShapeRight();
   }
 
+  rotateLeft() {
+    this._rotateShapeLeft();
+  }
+
   _rotateShapeRight() {
     this._removeOldShape();
     let newShape = this.fallingShape.shape.rotateRight();
+    this._dropTetromino(newShape, this.fallingShape.bottomLeft.y - newShape.height + 1, this.fallingShape.bottomLeft.x);
+  }
+
+  _rotateShapeLeft() {
+    this._removeOldShape();
+    let newShape = this.fallingShape.shape.rotateLeft();
     this._dropTetromino(newShape, this.fallingShape.bottomLeft.y - newShape.height + 1, this.fallingShape.bottomLeft.x);
   }
 

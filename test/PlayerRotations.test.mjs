@@ -30,6 +30,17 @@ describe("Player rotations", () => {
          ..........`
       );
     });
+    it("it can rotate left immediately", () => {
+      board.rotateLeft();
+      expect(board.toString()).to.equalShape(
+        `....T.....
+         ...TT.....
+         ....T.....
+         ..........
+         ..........
+         ..........`
+      );
+    });
   });
   xdescribe("When a Tetromino hits a wall", () => {});
 

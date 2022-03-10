@@ -215,7 +215,15 @@ export class Board {
     originalY = originalY < this.height ? originalY : this.height - 1;
     const originalX = this.fallingShape.bottomLeft.x;
 
-    for (var w = originalX; w < originalX + shape.width; w++) {
+    result = this._trimLeftSide(result, shape, originalY, originalX);
+    result = this._trimRightSide(result, shape, originalY, originalX);
+    result = this._trimBottom(result, shape, originalY, originalX);
+    return result;
+  }
+
+  _trimLeftSide(dimensions, shape, originalY, originalX) {
+    let result = dimensions;
+    for (var w = originalX; w < originalX + shape.width / 2; w++) {
       let emptyColumn = true;
       for (var h = originalY; h > originalY - shape.height; h--) {
         if (this.board[h][w] instanceof Block) {
@@ -228,7 +236,28 @@ export class Board {
         result.width = result.width - 1;
       }
     }
+    return result;
+  }
 
+  _trimRightSide(dimensions, shape, originalY, originalX) {
+    let result = dimensions;
+    for (var w = originalX + shape.width - 1; w > originalX + shape.width / 2; w--) {
+      let emptyColumn = true;
+      for (var h = originalY; h > originalY - shape.height; h--) {
+        if (this.board[h][w] instanceof Block) {
+          emptyColumn = false;
+          break;
+        }
+      }
+      if (emptyColumn == true) {
+        result.width = result.width - 1;
+      }
+    }
+    return result;
+  }
+
+  _trimBottom(dimensions, shape, originalY, originalX) {
+    let result = dimensions;
     for (var h = originalY; h > originalY - shape.height; h--) {
       for (var w = originalX; w < originalX + shape.width; w++) {
         if (this.board[h][w] instanceof Block) {

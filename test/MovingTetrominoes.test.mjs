@@ -239,5 +239,20 @@ describe("Moving tetrominoes", () => {
          ..........`
       );
     });
+
+    it("it can move flush to the Right wall", () => {
+      board.rotateLeft();
+      for (let i = 0; i < 5; i++) {
+        board.moveRight();
+      }
+      expect(board.toString()).to.equalShape(
+        `.........T
+         ........TT
+         .........T
+         ..........
+         ..........
+         ..........`
+      );
+    });
   });
 });

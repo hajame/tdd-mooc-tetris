@@ -67,22 +67,15 @@ export class Board {
   }
 
   rotateRight() {
-    this._rotateShapeRight();
+    this._resetFallingShape(this.fallingShape.shape.rotateRight());
   }
 
   rotateLeft() {
-    this._rotateShapeLeft();
+    this._resetFallingShape(this.fallingShape.shape.rotateLeft());
   }
 
-  _rotateShapeRight() {
+  _resetFallingShape(newShape) {
     this._removeOldShape();
-    let newShape = this.fallingShape.shape.rotateRight();
-    this._dropTetromino(newShape, this.fallingShape.bottomLeft.y - newShape.height + 1, this.fallingShape.bottomLeft.x);
-  }
-
-  _rotateShapeLeft() {
-    this._removeOldShape();
-    let newShape = this.fallingShape.shape.rotateLeft();
     this._dropTetromino(newShape, this.fallingShape.bottomLeft.y - newShape.height + 1, this.fallingShape.bottomLeft.x);
   }
 

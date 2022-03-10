@@ -67,16 +67,23 @@ export class Board {
   }
 
   rotateRight() {
-    this._resetFallingShape(this.fallingShape.shape.rotateRight());
+    let shape = this.fallingShape;
+    let xDiff = this.width - 1 - (shape.bottomLeft.x + shape.shape.rotateRight().width - 1);
+    xDiff = xDiff < 0 ? xDiff : 0;
+    this._resetFallingShape(this.fallingShape.shape.rotateRight(), xDiff);
   }
 
   rotateLeft() {
-    this._resetFallingShape(this.fallingShape.shape.rotateLeft());
+    this._resetFallingShape(this.fallingShape.shape.rotateLeft(), 0);
   }
 
-  _resetFallingShape(newShape) {
+  _resetFallingShape(newShape, xDiff) {
     this._removeOldShape();
-    this._dropTetromino(newShape, this.fallingShape.bottomLeft.y - newShape.height + 1, this.fallingShape.bottomLeft.x);
+    this._dropTetromino(
+      newShape,
+      this.fallingShape.bottomLeft.y - newShape.height + 1,
+      this.fallingShape.bottomLeft.x + xDiff
+    );
   }
 
   _removeOldShape() {

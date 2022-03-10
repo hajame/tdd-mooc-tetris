@@ -37,16 +37,15 @@ export class Board {
       throw "already falling";
     }
     if (shape instanceof Tetromino) {
-      this._dropTetromino(shape);
+      this._dropTetromino(shape, 0, parseInt((this.width - shape.width) / 2));
     } else {
       this._dropSingleBlockShape(shape);
     }
     this.isShapeFalling = true;
   }
 
-  _dropTetromino(shape) {
-    let shapeLeftX = parseInt((this.width - shape.width) / 2);
-    for (let y = 0; y < shape.height; y++) {
+  _dropTetromino(shape, shapeTopY, shapeLeftX) {
+    for (let y = shapeTopY; y < shape.height; y++) {
       for (let x = shapeLeftX; x < shapeLeftX + shape.width; x++) {
         this.board[y][x] = shape.blocks[y][x - shapeLeftX];
       }
@@ -65,6 +64,28 @@ export class Board {
       bottomLeft: { y: 0, x: parseInt(this.width / 2) },
     };
     this.fallingShape.trimmedShape = this._trimShape();
+  }
+
+  rotateRight() {
+    this._rotateShapeRight();
+  }
+
+  _rotateShapeRight() {
+    this._removeOldShape();
+    let newShape = this.fallingShape.shape.rotateRight();
+    this._dropTetromino(newShape, this.fallingShape.bottomLeft.y - newShape.height + 1, this.fallingShape.bottomLeft.x);
+  }
+
+  _removeOldShape() {
+    let oldShape = this.fallingShape.trimmedShape;
+    for (var y = oldShape.bottomLeft.y; y > oldShape.bottomLeft.y - oldShape.height; y--) {
+      for (var x = oldShape.bottomLeft.x; x < oldShape.bottomLeft.x + oldShape.width; x++) {
+        let block = this.board[y][x];
+        if (block instanceof Block) {
+          this.board[y][x] = new Space();
+        }
+      }
+    }
   }
 
   moveLeft() {

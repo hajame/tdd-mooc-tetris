@@ -14,13 +14,13 @@ describe("Player rotations", () => {
     board = new Board(10, 6);
   });
 
-  xdescribe("When a Tetromino is dropped", () => {
+  describe("When a Tetromino is dropped", () => {
     beforeEach(() => {
       board.drop(Tetromino.T_SHAPE);
     });
 
     it("it can rotate right immediately", () => {
-      board.rotate();
+      board.rotateRight();
       expect(board.toString()).to.equalShape(
         `....T.....
          ....TT....

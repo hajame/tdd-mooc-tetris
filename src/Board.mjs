@@ -215,6 +215,20 @@ export class Board {
     originalY = originalY < this.height ? originalY : this.height - 1;
     const originalX = this.fallingShape.bottomLeft.x;
 
+    for (var w = originalX; w < originalX + shape.width; w++) {
+      let emptyColumn = true;
+      for (var h = originalY; h > originalY - shape.height; h--) {
+        if (this.board[h][w] instanceof Block) {
+          emptyColumn = false;
+          break;
+        }
+      }
+      if (emptyColumn == true) {
+        result.bottomLeft.x = result.bottomLeft.x + 1;
+        result.width = result.width - 1;
+      }
+    }
+
     for (var h = originalY; h > originalY - shape.height; h--) {
       for (var w = originalX; w < originalX + shape.width; w++) {
         if (this.board[h][w] instanceof Block) {

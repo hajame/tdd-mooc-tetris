@@ -42,7 +42,27 @@ describe("Player rotations", () => {
       );
     });
   });
-  xdescribe("When a Tetromino hits a wall", () => {});
+  xdescribe("Tetromino performs wall kick", () => {
+    beforeEach(() => {
+      board.drop(Tetromino.T_SHAPE);
+    });
+
+    it("it can rotate right", () => {
+      board.rotateLeft();
+      for (let i = 0; i < 4; i++) {
+        board.moveRight();
+      }
+      // board.rotateRight();
+      expect(board.toString()).to.equalShape(
+        `.........T
+         ........TT
+         .........T
+         ..........
+         ..........
+         ..........`
+      );
+    });
+  });
 
   xdescribe("When there is another Tetromino", () => {});
 });

@@ -219,4 +219,25 @@ describe("Moving tetrominoes", () => {
       );
     });
   });
+
+  describe("When a Tetromino has been rotated", () => {
+    beforeEach(() => {
+      board.drop(Tetromino.T_SHAPE);
+    });
+
+    it("it can move flush to the Left wall", () => {
+      board.rotateRight();
+      for (let i = 0; i < 4; i++) {
+        board.moveLeft();
+      }
+      expect(board.toString()).to.equalShape(
+        `T.........
+         TT........
+         T.........
+         ..........
+         ..........
+         ..........`
+      );
+    });
+  });
 });

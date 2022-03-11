@@ -83,6 +83,9 @@ export class Board {
   }
 
   rotateLeft() {
+    if (!this._canPerformRotation(this.fallingShape.shape.rotateRight())) {
+      return;
+    }
     let xDiff = this._getRotateDiff(this.fallingShape.shape.rotateLeft());
     this._resetFallingShape(this.fallingShape.shape.rotateLeft(), xDiff);
   }

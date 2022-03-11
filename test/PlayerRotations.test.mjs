@@ -145,5 +145,24 @@ describe("Player rotations", () => {
          ..T.......`
       );
     });
+    it("it cannot rotate left", () => {
+      board.drop(Tetromino.T_SHAPE);
+      board.rotateRight();
+      for (let i = 0; i < 4; i++) {
+        board.moveLeft();
+      }
+      for (let i = 0; i < 2; i++) {
+        board.tick();
+      }
+      board.rotateLeft();
+      expect(board.toString()).to.equalShape(
+        `..........
+         ..........
+         T.........
+         TTT.......
+         T.TT......
+         ..T.......`
+      );
+    });
   });
 });

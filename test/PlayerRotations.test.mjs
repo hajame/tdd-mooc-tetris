@@ -78,6 +78,42 @@ describe("Player rotations", () => {
       );
     });
   });
+  describe("Tetromino performs left wall kick", () => {
+    beforeEach(() => {
+      board.drop(Tetromino.T_SHAPE);
+    });
+
+    it("it wall kicks on rotate left", () => {
+      board.rotateRight();
+      for (let i = 0; i < 4; i++) {
+        board.moveLeft();
+      }
+      board.rotateLeft();
+      expect(board.toString()).to.equalShape(
+        `.T........
+         TTT.......
+         ..........
+         ..........
+         ..........
+         ..........`
+      );
+    });
+    xit("it wall kicks on rotate right", () => {
+      board.rotateRight();
+      for (let i = 0; i < 4; i++) {
+        board.moveLeft();
+      }
+      board.rotateRight();
+      expect(board.toString()).to.equalShape(
+        `..........
+         TTT.......
+         .T........
+         ..........
+         ..........
+         ..........`
+      );
+    });
+  });
 
   xdescribe("When there is another Tetromino", () => {});
 });

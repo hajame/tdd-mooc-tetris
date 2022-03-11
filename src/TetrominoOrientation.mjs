@@ -1,5 +1,5 @@
 export class TetrominoOrientation {
-  orientations = new Map([["I", [".....\n.....\nIIII.\n.....\n.....", "..I..\n..I..\n..I..\n..I..\n....."]]]);
+  orientations = new Map([["I", ["....\nIIII\n....\n....", "..I.\n..I.\n..I.\n..I."]]]);
   type;
   current;
 
@@ -19,5 +19,9 @@ export class TetrominoOrientation {
     let current = array.indexOf(shape);
     let prev = current == 0 ? array.length - 1 : current - 1;
     return array[prev];
+  }
+
+  initialOrientation(type) {
+    return this.orientations.get(type)[0];
   }
 }

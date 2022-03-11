@@ -86,25 +86,28 @@ describe("The O shape", () => {
 
   it("initial orientation", () => {
     expect(shape.toString()).to.equalShape(
-      `.OO
-       .OO
-       ...`
+      `....
+       .OO.
+       .OO.
+       ....`
     );
   });
 
   it("cannot be rotated right/clockwise", () => {
     expect(shape.rotateRight().toString()).to.equalShape(
-      `.OO
-       .OO
-       ...`
+      `....
+       .OO.
+       .OO.
+       ....`
     );
   });
 
   it("cannot be rotated left/counter-clockwise", () => {
     expect(shape.rotateLeft().toString()).to.equalShape(
-      `.OO
-       .OO
-       ...`
+      `....
+       .OO.
+       .OO.
+       ....`
     );
   });
 

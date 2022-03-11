@@ -19,21 +19,23 @@ describe("The T shape", () => {
 
   it("initial orientation", () => {
     expect(shape.toString()).to.equalShape(
-      `.T.
-       TTT
-       ...`
+      `....
+       TTT.
+       .T..
+       ....`
     );
   });
 
-  it("can be rotated right/clockwise", () => {
+  xit("can be rotated right/clockwise", () => {
     expect(shape.rotateRight().toString()).to.equalShape(
-      `.T.
-       .TT
-       .T.`
+      `.T..
+       TT..
+       .T..
+       ....`
     );
   });
 
-  it("can be rotated left/counter-clockwise", () => {
+  xit("can be rotated left/counter-clockwise", () => {
     expect(shape.rotateLeft().toString()).to.equalShape(
       `.T.
        TT.
@@ -41,7 +43,7 @@ describe("The T shape", () => {
     );
   });
 
-  it("has 4 distinct orientations", () => {
+  xit("has 4 distinct orientations", () => {
     expect(distinctOrientations(shape).size).to.equal(4);
   });
 });

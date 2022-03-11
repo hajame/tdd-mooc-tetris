@@ -7,7 +7,7 @@ export class Tetromino extends RotatingShape {
   template;
   I_SIDEWAYS = "..I..\n..I..\n..I..\n..I..\n.....";
 
-  static T_SHAPE = new Tetromino(".T.\nTTT\n...", "T"); //4 orientations
+  static T_SHAPE = new Tetromino("....\nTTT.\n.T..\n....", "T"); //4 orientations
   static I_SHAPE = new Tetromino("....\nIIII\n....\n....", "I");
   static O_SHAPE = new Tetromino("....\n.OO.\n.OO.\n....", "O");
 

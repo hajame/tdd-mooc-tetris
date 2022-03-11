@@ -2,7 +2,6 @@ import { RotatingShape } from "./RotatingShape.mjs";
 
 export class Tetromino extends RotatingShape {
   type;
-  orientations;
   I_SIDEWAYS = "..I..\n..I..\n..I..\n..I..\n.....";
 
   static T_SHAPE = new Tetromino(".T.\nTTT\n...", "T", 4);
@@ -12,24 +11,23 @@ export class Tetromino extends RotatingShape {
   constructor(template, type, orientations) {
     super(template);
     this.type = type;
-    this.orientations = orientations;
   }
 
   rotateRight() {
-    if (this.orientations == 2) {
+    if (this.type == "I") {
       return this.oppositeState();
     }
-    if (this.orientations == 1) {
+    if (this.type == "O") {
       return this;
     }
     return super.rotateRight();
   }
 
   rotateLeft() {
-    if (this.orientations == 2) {
+    if (this.type == "I") {
       return this.oppositeState();
     }
-    if (this.orientations == 1) {
+    if (this.type == "O") {
       return this;
     }
     return super.rotateLeft();

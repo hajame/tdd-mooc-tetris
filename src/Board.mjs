@@ -71,6 +71,11 @@ export class Board {
     this._resetFallingShape(this.fallingShape.shape.rotateRight(), xDiff);
   }
 
+  rotateLeft() {
+    let xDiff = this._getRotateDiff(this.fallingShape.shape.rotateLeft());
+    this._resetFallingShape(this.fallingShape.shape.rotateLeft(), xDiff);
+  }
+
   _getRotateDiff(newShape) {
     let rightWallDiff = this.width - 1 - (this.fallingShape.bottomLeft.x + newShape.width - 1);
     if (rightWallDiff < 0) {
@@ -80,11 +85,6 @@ export class Board {
       return this.fallingShape.bottomLeft.x * -1;
     }
     return 0;
-  }
-
-  rotateLeft() {
-    let xDiff = this._getRotateDiff(this.fallingShape.shape.rotateLeft());
-    this._resetFallingShape(this.fallingShape.shape.rotateLeft(), xDiff);
   }
 
   _resetFallingShape(newShape, xDiff) {

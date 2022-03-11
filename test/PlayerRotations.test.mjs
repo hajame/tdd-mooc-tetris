@@ -115,5 +115,35 @@ describe("Player rotations", () => {
     });
   });
 
-  xdescribe("When there is another Tetromino", () => {});
+  describe("When there is no room to rotate", () => {
+    beforeEach(() => {
+      board.drop(Tetromino.T_SHAPE);
+      board.rotateRight();
+      board.moveLeft();
+      board.moveLeft();
+      for (let i = 0; i < 4; i++) {
+        board.tick();
+      }
+    });
+
+    it("it cannot rotate right", () => {
+      board.drop(Tetromino.T_SHAPE);
+      board.rotateRight();
+      for (let i = 0; i < 4; i++) {
+        board.moveLeft();
+      }
+      for (let i = 0; i < 2; i++) {
+        board.tick();
+      }
+      board.rotateRight();
+      expect(board.toString()).to.equalShape(
+        `..........
+         ..........
+         T.........
+         TTT.......
+         T.TT......
+         ..T.......`
+      );
+    });
+  });
 });

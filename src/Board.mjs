@@ -54,7 +54,7 @@ export class Board {
       shape: shape,
       bottomLeft: { y: shape.height - 1, x: shapeLeftX },
     };
-    this.fallingShape.trimmedShape = this._trimShape();
+    this.fallingShape.trimmedShape = this._trimShape(this.fallingShape.shape);
   }
 
   _dropSingleBlockShape(shape) {
@@ -63,10 +63,13 @@ export class Board {
       shape: new RotatingShape(shape.toString()),
       bottomLeft: { y: 0, x: parseInt(this.width / 2) },
     };
-    this.fallingShape.trimmedShape = this._trimShape();
+    this.fallingShape.trimmedShape = this._trimShape(this.fallingShape.shape);
   }
 
   rotateRight() {
+    // if (!_canPerformRotation(this.fallingShape.shape.rotateRight())) {
+    //   return;
+    // }
     let xDiff = this._getRotateDiff(this.fallingShape.shape.rotateRight());
     this._resetFallingShape(this.fallingShape.shape.rotateRight(), xDiff);
   }
@@ -75,6 +78,8 @@ export class Board {
     let xDiff = this._getRotateDiff(this.fallingShape.shape.rotateLeft());
     this._resetFallingShape(this.fallingShape.shape.rotateLeft(), xDiff);
   }
+
+  // _canPerformRotation(newShape) {}
 
   _getRotateDiff(newShape) {
     let rightWallDiff = this.width - 1 - (this.fallingShape.bottomLeft.x + newShape.width - 1);
@@ -218,8 +223,7 @@ export class Board {
     this.board[y + yDiff][x + xDiff] = block;
   }
 
-  _trimShape() {
-    let shape = this.fallingShape.shape;
+  _trimShape(shape) {
     let result = {
       bottomLeft: {
         y: this.fallingShape.bottomLeft.y,

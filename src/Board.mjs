@@ -146,8 +146,7 @@ export class Board {
   }
 
   moveRight() {
-    const shape = this.fallingShape.trimmedShape;
-    if (!this._canMoveRight(shape)) {
+    if (!this._canMoveRight(this.fallingShape.trimmedShape)) {
       return;
     }
     this._moveShapeRight(this.fallingShape.trimmedShape, 0, +1);
@@ -185,14 +184,11 @@ export class Board {
   }
 
   _canMoveDown(shape) {
-    const bottomY = shape.bottomLeft.y;
-    const bottomX = shape.bottomLeft.x;
-
-    if (bottomY >= this.height - 1) {
+    if (shape.bottomLeft.y >= this.height - 1) {
       return false;
     }
-    for (var w = bottomX; w < shape.bottomLeft.x + shape.width; w++) {
-      if (!(this.board[bottomY + 1][w] instanceof Space)) {
+    for (var w = shape.bottomLeft.x; w < shape.bottomLeft.x + shape.width; w++) {
+      if (!(this.board[shape.bottomLeft.y + 1][w] instanceof Space)) {
         return false;
       }
     }

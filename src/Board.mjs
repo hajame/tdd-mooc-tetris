@@ -78,7 +78,8 @@ export class Board {
   }
 
   rotateLeft() {
-    this._resetFallingShape(this.fallingShape.shape.rotateLeft(), 0);
+    let xDiff = this._getRotateDiff(this.fallingShape.shape.rotateLeft());
+    this._resetFallingShape(this.fallingShape.shape.rotateLeft(), xDiff);
   }
 
   _resetFallingShape(newShape, xDiff) {

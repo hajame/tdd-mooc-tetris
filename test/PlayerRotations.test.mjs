@@ -98,7 +98,7 @@ describe("Player rotations", () => {
          ..........`
       );
     });
-    xit("it wall kicks on rotate right", () => {
+    it("it wall kicks on rotate right", () => {
       board.rotateRight();
       for (let i = 0; i < 4; i++) {
         board.moveLeft();

@@ -9,7 +9,7 @@ export class Tetromino extends RotatingShape {
 
   static T_SHAPE = new Tetromino(".T.\nTTT\n...", "T"); //4 orientations
   static I_SHAPE = new Tetromino("....\nIIII\n....\n....", "I");
-  static O_SHAPE = new Tetromino(".OO\n.OO\n...", "O");
+  static O_SHAPE = new Tetromino("....\n.OO.\n.OO.\n....", "O");
 
   constructor(template, type) {
     super(template);
@@ -23,7 +23,7 @@ export class Tetromino extends RotatingShape {
       return new Tetromino(this.orientation.right(this.template), this.type);
     }
     if (this.type == "O") {
-      return this;
+      return new Tetromino(this.orientation.right(this.template), this.type);
     }
     return super.rotateRight();
   }
@@ -33,7 +33,7 @@ export class Tetromino extends RotatingShape {
       return new Tetromino(this.orientation.left(this.template), this.type);
     }
     if (this.type == "O") {
-      return this;
+      return new Tetromino(this.orientation.right(this.template), this.type);
     }
     return super.rotateLeft();
   }

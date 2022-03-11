@@ -1,21 +1,26 @@
 import { RotatingShape } from "./RotatingShape.mjs";
+import { TetrominoOrientation } from "./TetrominoOrientation.mjs";
 
 export class Tetromino extends RotatingShape {
   type;
+  orientation;
+  template;
   I_SIDEWAYS = "..I..\n..I..\n..I..\n..I..\n.....";
 
-  static T_SHAPE = new Tetromino(".T.\nTTT\n...", "T", 4);
-  static I_SHAPE = new Tetromino(".....\n.....\nIIII.\n.....\n.....", "I", 2);
-  static O_SHAPE = new Tetromino(".OO\n.OO\n...", "O", 1);
+  static T_SHAPE = new Tetromino(".T.\nTTT\n...", "T"); //4 orientations
+  static I_SHAPE = new Tetromino(".....\n.....\nIIII.\n.....\n.....", "I");
+  static O_SHAPE = new Tetromino(".OO\n.OO\n...", "O");
 
-  constructor(template, type, orientations) {
+  constructor(template, type) {
     super(template);
+    this.template = template;
     this.type = type;
+    this.orientation = new TetrominoOrientation(type);
   }
 
   rotateRight() {
     if (this.type == "I") {
-      return this.oppositeState();
+      return new Tetromino(this.orientation.right(this.template), this.type);
     }
     if (this.type == "O") {
       return this;
@@ -25,21 +30,11 @@ export class Tetromino extends RotatingShape {
 
   rotateLeft() {
     if (this.type == "I") {
-      return this.oppositeState();
+      return new Tetromino(this.orientation.left(this.template), this.type);
     }
     if (this.type == "O") {
       return this;
     }
     return super.rotateLeft();
-  }
-
-  oppositeState() {
-    if (this.type == "I") {
-      if (this.toString() == this.I_SIDEWAYS) {
-        return this.I_SHAPE;
-      } else {
-        return new Tetromino(this.I_SIDEWAYS, "I", 2);
-      }
-    }
   }
 }

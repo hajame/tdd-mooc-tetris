@@ -54,7 +54,11 @@ export class Board {
       shape: shape,
       bottomLeft: { y: shape.height - 1, x: shapeLeftX },
     };
-    this.fallingShape.trimmedShape = this._trimShape(this.fallingShape.shape);
+    this.fallingShape.trimmedShape = this._trimShape(
+      this.fallingShape.shape,
+      this.fallingShape.bottomLeft.y,
+      this.fallingShape.bottomLeft.x
+    );
   }
 
   _dropSingleBlockShape(shape) {
@@ -63,13 +67,17 @@ export class Board {
       shape: new RotatingShape(shape.toString()),
       bottomLeft: { y: 0, x: parseInt(this.width / 2) },
     };
-    this.fallingShape.trimmedShape = this._trimShape(this.fallingShape.shape);
+    this.fallingShape.trimmedShape = this._trimShape(
+      this.fallingShape.shape,
+      this.fallingShape.bottomLeft.y,
+      this.fallingShape.bottomLeft.x
+    );
   }
 
   rotateRight() {
-    // if (!_canPerformRotation(this.fallingShape.shape.rotateRight())) {
-    //   return;
-    // }
+    if (!this._canPerformRotation(this.fallingShape.shape.rotateRight())) {
+      return;
+    }
     let xDiff = this._getRotateDiff(this.fallingShape.shape.rotateRight());
     this._resetFallingShape(this.fallingShape.shape.rotateRight(), xDiff);
   }
@@ -79,7 +87,14 @@ export class Board {
     this._resetFallingShape(this.fallingShape.shape.rotateLeft(), xDiff);
   }
 
-  // _canPerformRotation(newShape) {}
+  _canPerformRotation(newShape) {
+    let xDiff = this._getRotateDiff(newShape);
+    if (xDiff == 0) {
+      return true;
+    }
+    let trimmedShape = this._trimShape(newShape, this.fallingShape.bottomLeft.y, this.fallingShape.bottomLeft.x);
+    return xDiff < 0 ? this._canMoveLeft(trimmedShape) : this._canMoveRight(trimmedShape);
+  }
 
   _getRotateDiff(newShape) {
     let rightWallDiff = this.width - 1 - (this.fallingShape.bottomLeft.x + newShape.width - 1);
@@ -223,18 +238,18 @@ export class Board {
     this.board[y + yDiff][x + xDiff] = block;
   }
 
-  _trimShape(shape) {
+  _trimShape(shape, botLeftY, botLeftX) {
     let result = {
       bottomLeft: {
-        y: this.fallingShape.bottomLeft.y,
-        x: this.fallingShape.bottomLeft.x,
+        y: botLeftY,
+        x: botLeftX,
       },
       height: shape.height,
       width: shape.width,
     };
-    let originalY = this.fallingShape.bottomLeft.y;
+    let originalY = botLeftY;
     originalY = originalY < this.height ? originalY : this.height - 1;
-    const originalX = this.fallingShape.bottomLeft.x;
+    const originalX = botLeftX;
 
     result = this._trimLeftSide(result, shape, originalY, originalX);
     result = this._trimRightSide(result, shape, originalY, originalX);

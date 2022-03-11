@@ -42,7 +42,7 @@ describe("Player rotations", () => {
       );
     });
   });
-  describe("Tetromino performs wall kick", () => {
+  describe("Tetromino performs right wall kick", () => {
     beforeEach(() => {
       board.drop(Tetromino.T_SHAPE);
     });
@@ -57,6 +57,21 @@ describe("Player rotations", () => {
         `........T.
          .......TTT
          ..........
+         ..........
+         ..........
+         ..........`
+      );
+    });
+    it("it wall kicks on rotate left", () => {
+      board.rotateLeft();
+      for (let i = 0; i < 5; i++) {
+        board.moveRight();
+      }
+      board.rotateLeft();
+      expect(board.toString()).to.equalShape(
+        `..........
+         .......TTT
+         ........T.
          ..........
          ..........
          ..........`

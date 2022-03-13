@@ -99,7 +99,7 @@ export class Board {
   }
 
   _getRotateDiff(newShape) {
-    let rightWallDiff = this.width - 1 - (this.fallingShape.bottomLeft.x + newShape.width - 1);
+    let rightWallDiff = this.width - (this.fallingShape.bottomLeft.x + newShape.width - 1);
     if (rightWallDiff < 0) {
       return rightWallDiff;
     }

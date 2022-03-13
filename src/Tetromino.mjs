@@ -1,8 +1,10 @@
-import { RotatingShape } from "./RotatingShape.mjs";
 import { TetrominoOrientation } from "./TetrominoOrientation.mjs";
 
-export class Tetromino extends RotatingShape {
+export class Tetromino {
   template;
+  shape;
+  height;
+  width;
   type;
   orientation;
 
@@ -11,7 +13,6 @@ export class Tetromino extends RotatingShape {
   static O_SHAPE = new Tetromino("....\n.OO.\n.OO.\n....", "O");
 
   constructor(template, type) {
-    super(template);
     const templateRows = template.replace(/ /g, "").split("\n");
     this.height = templateRows.length;
     this.width = templateRows[0].length;

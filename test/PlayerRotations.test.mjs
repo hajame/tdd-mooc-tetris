@@ -115,10 +115,10 @@ describe("Player rotations", () => {
     });
   });
 
-  xdescribe("When there is no room to rotate", () => {
+  describe("When there is no room to rotate", () => {
     beforeEach(() => {
       board.drop(Tetromino.T_SHAPE);
-      board.rotateRight();
+      board.rotateLeft();
       board.moveLeft();
       board.moveLeft();
       for (let i = 0; i < 4; i++) {
@@ -128,7 +128,7 @@ describe("Player rotations", () => {
 
     it("it cannot rotate right", () => {
       board.drop(Tetromino.T_SHAPE);
-      board.rotateRight();
+      board.rotateLeft();
       for (let i = 0; i < 4; i++) {
         board.moveLeft();
       }
@@ -147,7 +147,7 @@ describe("Player rotations", () => {
     });
     it("it cannot rotate left", () => {
       board.drop(Tetromino.T_SHAPE);
-      board.rotateRight();
+      board.rotateLeft();
       for (let i = 0; i < 4; i++) {
         board.moveLeft();
       }

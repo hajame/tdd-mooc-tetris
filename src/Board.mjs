@@ -1,7 +1,6 @@
 import { Space } from "../src/Space.mjs";
 import { Block } from "../src/Block.mjs";
 import { Tetromino } from "./Tetromino.mjs";
-import { RotatingShape } from "./RotatingShape.mjs";
 
 export class Board {
   width;

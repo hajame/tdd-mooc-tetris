@@ -36,17 +36,17 @@ export class Board {
       throw "already falling";
     }
     if (shape instanceof Tetromino) {
-      this._dropTetromino(shape, 0, parseInt((this.width - shape.width) / 2));
+      this._dropTetromino(shape, 0, parseInt((this.width - shape.width) / 2), 1);
     } else {
       this._dropSingleBlockShape(shape);
     }
     this.isShapeFalling = true;
   }
 
-  _dropTetromino(shape, shapeTopY, shapeLeftX) {
-    for (let y = shapeTopY; y < shape.height; y++) {
+  _dropTetromino(shape, shapeTopY, shapeLeftX, trimTop) {
+    for (let y = shapeTopY; y < shape.height - trimTop; y++) {
       for (let x = shapeLeftX; x < shapeLeftX + shape.width; x++) {
-        this.board[y][x] = shape.blocks[y][x - shapeLeftX];
+        this.board[y][x] = shape.blocks[y + trimTop][x - shapeLeftX];
       }
     }
     this.fallingShape = {
@@ -114,7 +114,8 @@ export class Board {
     this._dropTetromino(
       newShape,
       this.fallingShape.bottomLeft.y - newShape.height + 1,
-      this.fallingShape.bottomLeft.x + xDiff
+      this.fallingShape.bottomLeft.x + xDiff,
+      0
     );
   }
 

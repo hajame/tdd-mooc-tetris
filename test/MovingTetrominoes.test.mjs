@@ -19,7 +19,7 @@ describe("Moving tetrominoes", () => {
       board.drop(Tetromino.T_SHAPE);
     });
 
-    it("it can move left", () => {
+    xit("it can move left", () => {
       board.moveLeft();
       expect(board.toString()).to.equalShape(
         `..........

@@ -23,12 +23,6 @@ export class Tetromino extends RotatingShape {
   }
 
   rotateLeft() {
-    if (this.type == "I") {
-      return new Tetromino(this.orientation.left(this.template), this.type);
-    }
-    if (this.type == "O") {
-      return new Tetromino(this.orientation.right(this.template), this.type);
-    }
-    return super.rotateLeft();
+    return new Tetromino(this.orientation.left(this.template), this.type);
   }
 }

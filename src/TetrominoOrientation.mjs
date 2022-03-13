@@ -2,7 +2,7 @@ export class TetrominoOrientation {
   orientations = new Map([
     ["I", ["....\nIIII\n....\n....", "..I.\n..I.\n..I.\n..I."]],
     ["O", ["....\n.OO.\n.OO.\n...."]],
-    ["T", ["....\nTTT.\n.T..\n....", ".T..\nTT..\n.T..\n...."]],
+    ["T", ["....\nTTT.\n.T..\n....", ".T..\nTT..\n.T..\n....", "", ".T..\n.TT.\n.T..\n...."]],
   ]);
   type;
   current;

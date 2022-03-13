@@ -32,4 +32,12 @@ export class Tetromino extends RotatingShape {
   rotateLeft() {
     return new Tetromino(this.orientation.left(this.template), this.type);
   }
+
+  toString() {
+    let printout = "";
+    this.shape.forEach((row) => {
+      printout = printout.concat(row.join("").concat("\n"));
+    });
+    return printout;
+  }
 }

@@ -167,8 +167,15 @@ export class Board {
     if (shape.bottomLeft.x <= 0) {
       return false;
     }
-    if (!(this.board[shape.bottomLeft.y][shape.bottomLeft.x - 1] instanceof Space)) {
-      return false;
+    return this._isSideFree(shape, -1);
+  }
+
+  _isSideFree(shape, xDiff) {
+    for (var y = shape.bottomLeft.y; y > shape.bottomLeft.y - shape.height; y--) {
+      let block = this.board[y][shape.bottomLeft.x + xDiff];
+      if (block instanceof Block) {
+        return false;
+      }
     }
     return true;
   }
@@ -177,10 +184,7 @@ export class Board {
     if (shape.bottomLeft.x + shape.width - 1 >= this.width - 1) {
       return;
     }
-    if (!(this.board[shape.bottomLeft.y][shape.bottomLeft.x + shape.width] instanceof Space)) {
-      return false;
-    }
-    return true;
+    return this._isSideFree(shape, shape.width);
   }
 
   _canMoveDown(shape) {

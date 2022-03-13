@@ -64,7 +64,7 @@ export class Board {
   _dropSingleBlockShape(shape) {
     this.board[0][parseInt(this.width / 2)] = shape;
     this.fallingShape = {
-      shape: new RotatingShape(shape.toString()),
+      shape: new Tetromino(shape.toString(), shape.color),
       bottomLeft: { y: 0, x: parseInt(this.width / 2) },
     };
     this.fallingShape.trimmedShape = this._trimShape(

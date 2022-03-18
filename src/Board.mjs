@@ -174,6 +174,7 @@ export class Board {
       }
       if (isRowFull) {
         this._clearRow(h);
+        this._applyGravity(h);
       }
     }
   }
@@ -181,6 +182,14 @@ export class Board {
   _clearRow(yPosition) {
     for (var w = 0; w < this.width; w++) {
       this.board[yPosition][w] = new Space();
+    }
+  }
+
+  _applyGravity(yPosition) {
+    for (var h = yPosition; h > 0; h--) {
+      for (var w = 0; w < this.width; w++) {
+        this.board[h][w] = this.board[h - 1][w];
+      }
     }
   }
 

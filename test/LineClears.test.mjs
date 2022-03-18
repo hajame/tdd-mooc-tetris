@@ -8,6 +8,11 @@ function fallToBottom(board) {
   }
 }
 
+function turnBlock180degrees(board) {
+  board.rotateRight();
+  board.rotateRight();
+}
+
 describe("Line Clears", () => {
   let board;
   beforeEach(() => {
@@ -16,9 +21,7 @@ describe("Line Clears", () => {
   describe("When one line becomes full", () => {
     it("it clears the row", () => {
       board.drop(Tetromino.T_SHAPE);
-      board.moveLeft();
-      board.moveLeft();
-      board.moveLeft();
+      moveLeft(3, board);
       fallToBottom(board);
       board.drop(Tetromino.T_SHAPE);
       board.moveRight();
@@ -39,5 +42,40 @@ describe("Line Clears", () => {
          .T..T..T.`
       );
     });
+
+    it("it applies gravity", () => {
+      board.drop(Tetromino.T_SHAPE);
+      turnBlock180degrees(board);
+      moveLeft(3, board);
+      fallToBottom(board);
+      board.drop(Tetromino.T_SHAPE);
+      turnBlock180degrees(board);
+      board.moveRight();
+      fallToBottom(board);
+      board.drop(Tetromino.T_SHAPE);
+      turnBlock180degrees(board);
+      moveRight(4, board);
+      fallToBottom(board);
+
+      expect(board.toString()).to.equalShape(
+        `.........
+         .........
+         .........
+         .........
+         .........
+         .T..T..T.`
+      );
+    });
   });
 });
+
+function moveRight(times, board) {
+  for (let i = 0; i < times + 1; i++) {
+    board.moveRight();
+  }
+}
+function moveLeft(times, board) {
+  for (let i = 0; i < times + 1; i++) {
+    board.moveLeft();
+  }
+}

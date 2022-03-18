@@ -154,4 +154,36 @@ describe("Line Clears", () => {
       );
     });
   });
+
+  describe("When four lines becomes full", () => {
+    it("4 rows are removed", () => {
+      board = new Board(5, 8);
+
+      board.drop(Tetromino.O_SHAPE);
+      board.moveLeft();
+      fallToBottom(board);
+      board.drop(Tetromino.O_SHAPE);
+      board.moveRight();
+      fallToBottom(board);
+      board.drop(Tetromino.I_SHAPE);
+      fallToBottom(board);
+      board.drop(Tetromino.I_SHAPE);
+      fallToBottom(board);
+      board.drop(Tetromino.I_SHAPE);
+      board.rotateRight();
+      moveRight(2, board);
+      fallToBottom(board);
+
+      expect(board.toString()).to.equalShape(
+        `.....
+         .....
+         .....
+         .....
+         .....
+         .....
+         .....
+         .....`
+      );
+    });
+  });
 });

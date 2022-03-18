@@ -33,7 +33,7 @@ export class Board {
     this.scoreObservers.push(score);
   }
 
-  notifyScoreObjservers(rowsRemoved) {
+  notifyScoreObservers(rowsRemoved) {
     if (rowsRemoved == 0) {
       return;
     }
@@ -173,7 +173,7 @@ export class Board {
     }
     this.isShapeFalling = this._canMoveDown(this.fallingShape.trimmedShape);
     if (!this.isShapeFalling) {
-      this.notifyScoreObjservers(this._clearRows());
+      this.notifyScoreObservers(this._clearRows());
       return;
     }
     this.moveDown();

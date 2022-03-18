@@ -8,6 +8,7 @@ export class Board {
   board;
   isShapeFalling;
   fallingShape;
+  scoreObservers;
 
   constructor(width, height) {
     this.width = width;
@@ -16,6 +17,7 @@ export class Board {
     this.fallingShape = undefined;
     this.isShapeFalling = false;
     this._initializeBoard();
+    this.scoreObservers = new Array();
   }
 
   _initializeBoard() {
@@ -25,6 +27,19 @@ export class Board {
         this.board[h][w] = new Space();
       }
     }
+  }
+
+  attachScoreObserver(score) {
+    this.scoreObservers.push(score);
+  }
+
+  notifyScoreObjservers(rowsRemoved) {
+    if (rowsRemoved == 0) {
+      return;
+    }
+    this.scoreObservers.forEach((observer) => {
+      observer.update(rowsRemoved);
+    });
   }
 
   hasFalling() {
@@ -158,13 +173,14 @@ export class Board {
     }
     this.isShapeFalling = this._canMoveDown(this.fallingShape.trimmedShape);
     if (!this.isShapeFalling) {
-      this._clearRows();
+      this.notifyScoreObjservers(this._clearRows());
       return;
     }
     this.moveDown();
   }
 
   _clearRows() {
+    let clearedRows = 0;
     for (var h = 0; h < this.height; h++) {
       let isRowFull = true;
       for (var w = 0; w < this.width; w++) {
@@ -175,8 +191,10 @@ export class Board {
       if (isRowFull) {
         this._clearRow(h);
         this._applyGravity(h);
+        clearedRows++;
       }
     }
+    return clearedRows;
   }
 
   _clearRow(yPosition) {

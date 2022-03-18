@@ -5,6 +5,10 @@ export class NintendoScore {
     this.score = 0;
   }
 
+  update(rowsRemoved) {
+    this.score = this.score + 40;
+  }
+
   getScore() {
     return this.score;
   }

@@ -12,6 +12,9 @@ export class NintendoScore {
     if (rowsRemoved == 2) {
       this.score = this.score + 100;
     }
+    if (rowsRemoved == 3) {
+      this.score = this.score + 300;
+    }
   }
 
   getScore() {

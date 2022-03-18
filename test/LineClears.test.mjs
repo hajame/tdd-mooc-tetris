@@ -1,4 +1,5 @@
 import { expect } from "chai";
+import { Block } from "../src/Block.mjs";
 import { Board } from "../src/Board.mjs";
 import { Tetromino } from "../src/Tetromino.mjs";
 
@@ -13,12 +14,23 @@ function turnBlock180degrees(board) {
   board.rotateRight();
 }
 
+function moveRight(times, board) {
+  for (let i = 0; i < times + 1; i++) {
+    board.moveRight();
+  }
+}
+function moveLeft(times, board) {
+  for (let i = 0; i < times + 1; i++) {
+    board.moveLeft();
+  }
+}
+
 describe("Line Clears", () => {
   let board;
-  beforeEach(() => {
-    board = new Board(9, 6);
-  });
   describe("When one line becomes full", () => {
+    beforeEach(() => {
+      board = new Board(9, 6);
+    });
     it("it clears the row", () => {
       board.drop(Tetromino.T_SHAPE);
       moveLeft(3, board);
@@ -27,10 +39,7 @@ describe("Line Clears", () => {
       board.moveRight();
       fallToBottom(board);
       board.drop(Tetromino.T_SHAPE);
-      board.moveRight();
-      board.moveRight();
-      board.moveRight();
-      board.moveRight();
+      moveRight(4, board);
       fallToBottom(board);
 
       expect(board.toString()).to.equalShape(
@@ -67,15 +76,50 @@ describe("Line Clears", () => {
       );
     });
   });
-});
+  describe("When two lines becomes full", () => {
+    it("it clears the rows", () => {
+      board = new Board(4, 6);
+      board.drop(Tetromino.O_SHAPE);
+      board.moveLeft();
+      fallToBottom(board);
+      board.drop(Tetromino.O_SHAPE);
+      board.moveRight();
+      fallToBottom(board);
 
-function moveRight(times, board) {
-  for (let i = 0; i < times + 1; i++) {
-    board.moveRight();
-  }
-}
-function moveLeft(times, board) {
-  for (let i = 0; i < times + 1; i++) {
-    board.moveLeft();
-  }
-}
+      expect(board.toString()).to.equalShape(
+        `....
+         ....
+         ....
+         ....
+         ....
+         ....`
+      );
+    });
+
+    it("it applies gravity", () => {
+      board = new Board(6, 8);
+      board.drop(Tetromino.O_SHAPE);
+      moveLeft(2, board);
+      fallToBottom(board);
+      board.drop(Tetromino.O_SHAPE);
+      fallToBottom(board);
+      board.drop(Tetromino.T_SHAPE);
+      moveLeft(4, board);
+      fallToBottom(board);
+      board.drop(Tetromino.O_SHAPE);
+      moveRight(4, board);
+      fallToBottom(board);
+
+      expect(board.toString()).to.equalShape(
+        `......
+         ......
+         ......
+         ......
+         ......
+         ......
+         TTT...
+         .T....`
+      );
+    });
+  });
+});

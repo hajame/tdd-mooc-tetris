@@ -6,7 +6,12 @@ export class NintendoScore {
   }
 
   update(rowsRemoved) {
-    this.score = this.score + 40;
+    if (rowsRemoved == 1) {
+      this.score = this.score + 40;
+    }
+    if (rowsRemoved == 2) {
+      this.score = this.score + 100;
+    }
   }
 
   getScore() {

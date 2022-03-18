@@ -54,5 +54,20 @@ describe("Nintendo Score", () => {
 
       expect(score.getScore()).to.equal(40);
     });
+
+    it("2 rows earn 100 points", () => {
+      board = new Board(4, 6);
+      score = new NintendoScore();
+      board.attachScoreObserver(score);
+
+      board.drop(Tetromino.O_SHAPE);
+      board.moveLeft();
+      fallToBottom(board);
+      board.drop(Tetromino.O_SHAPE);
+      board.moveRight();
+      fallToBottom(board);
+
+      expect(score.getScore()).to.equal(100);
+    });
   });
 });

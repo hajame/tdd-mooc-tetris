@@ -69,5 +69,26 @@ describe("Nintendo Score", () => {
 
       expect(score.getScore()).to.equal(100);
     });
+
+    it("3 rows earn 300 points", () => {
+      board = new Board(5, 8);
+      score = new NintendoScore();
+      board.attachScoreObserver(score);
+
+      board.drop(Tetromino.O_SHAPE);
+      board.moveLeft();
+      fallToBottom(board);
+      board.drop(Tetromino.O_SHAPE);
+      board.moveRight();
+      fallToBottom(board);
+      board.drop(Tetromino.I_SHAPE);
+      fallToBottom(board);
+      board.drop(Tetromino.I_SHAPE);
+      board.rotateRight();
+      moveRight(2, board);
+      fallToBottom(board);
+
+      expect(score.getScore()).to.equal(300);
+    });
   });
 });

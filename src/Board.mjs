@@ -158,9 +158,30 @@ export class Board {
     }
     this.isShapeFalling = this._canMoveDown(this.fallingShape.trimmedShape);
     if (!this.isShapeFalling) {
+      this._clearRows();
       return;
     }
     this.moveDown();
+  }
+
+  _clearRows() {
+    for (var h = 0; h < this.height; h++) {
+      let isRowFull = true;
+      for (var w = 0; w < this.width; w++) {
+        if (this.board[h][w] instanceof Space) {
+          isRowFull = false;
+        }
+      }
+      if (isRowFull) {
+        this._clearRow(h);
+      }
+    }
+  }
+
+  _clearRow(yPosition) {
+    for (var w = 0; w < this.width; w++) {
+      this.board[yPosition][w] = new Space();
+    }
   }
 
   _canMoveLeft(shape) {

@@ -9,28 +9,29 @@ describe("Shuffle bag", () => {
   });
 
   describe("When only 3 tetrominoes are inserted", () => {
-    beforeEach(() => {
+    it("3 draws give 3 distinct objects", () => {
       bag.add(Tetromino.T_SHAPE, 1);
       bag.add(Tetromino.O_SHAPE, 1);
       bag.add(Tetromino.I_SHAPE, 1);
-    });
-
-    it("3 draws give 3 distinct objects", () => {
       let list = draw(bag, 3);
       expect(getDistinctTypes(list).length).to.equals(3);
     });
   });
 
   describe("When only 4 tetrominoes of 2 types are inserted", () => {
-    beforeEach(() => {
-      bag.add(Tetromino.T_SHAPE, 1);
-      bag.add(Tetromino.O_SHAPE, 1);
-      bag.add(Tetromino.T_SHAPE, 1);
-      bag.add(Tetromino.O_SHAPE, 1);
-    });
-
     it("4 draws give 2 distinct types", () => {
+      bag.add(Tetromino.T_SHAPE, 2);
+      bag.add(Tetromino.O_SHAPE, 2);
       let list = draw(bag, 4);
+      expect(getDistinctTypes(list).length).to.equals(2);
+    });
+  });
+
+  describe("When an item is 1/10", () => {
+    it("it will show up in 10 draws", () => {
+      bag.add(Tetromino.T_SHAPE, 1);
+      bag.add(Tetromino.O_SHAPE, 9);
+      let list = draw(bag, 10);
       expect(getDistinctTypes(list).length).to.equals(2);
     });
   });

@@ -10,9 +10,9 @@ describe("Shuffle bag", () => {
 
   describe("When only 3 tetrominoes are inserted", () => {
     beforeEach(() => {
-      bag.drop(Tetromino.T_SHAPE, 1);
-      bag.drop(Tetromino.O_SHAPE, 1);
-      bag.drop(Tetromino.I_SHAPE, 1);
+      bag.add(Tetromino.T_SHAPE, 1);
+      bag.add(Tetromino.O_SHAPE, 1);
+      bag.add(Tetromino.I_SHAPE, 1);
     });
 
     it("3 draws give 3 distinct objects", () => {
